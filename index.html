@@ -54,8 +54,17 @@
   .nav-links a{font-size:14px;color:var(--dim);font-weight:500;transition:.15s}
   .nav-links a:hover{color:var(--text)}
   .nav-cta{display:flex;align-items:center;gap:14px}
-  .nav-signin{font-size:14px;color:var(--dim);font-weight:500}
+  .nav-signin{font-size:14px;color:var(--dim);font-weight:500;cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:none;border:none;font-family:var(--sans)}
   .nav-signin:hover{color:var(--text)}
+  .signin-wrap{position:relative}
+  .signin-wrap .si-caret{font-size:10px;transition:transform .15s}
+  .signin-wrap.open .si-caret{transform:rotate(180deg)}
+  .signin-menu{position:absolute;top:calc(100% + 10px);right:0;min-width:196px;background:var(--panel2);border:1px solid var(--line2);border-radius:12px;padding:6px;box-shadow:0 16px 40px rgba(0,0,0,.55);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .15s,transform .15s;z-index:200}
+  .signin-wrap.open .signin-menu{opacity:1;visibility:visible;transform:translateY(0)}
+  .signin-menu a{display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:8px;font-size:14px;color:var(--text);font-weight:500;transition:background .12s}
+  .signin-menu a:hover{background:var(--raised)}
+  .signin-menu .si-ic{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .signin-menu .si-sub{display:block;font-size:11px;color:var(--dim2);font-weight:400;margin-top:1px}
   .menu-btn{display:none;background:none;border:0;color:var(--text);cursor:pointer}
 
   /* ===== HERO ===== */
@@ -274,7 +283,13 @@
       <a href="javascript:void(0)" data-view="brokers" onclick="showView('brokers')">For brokers</a>
     </div>
     <div class="nav-cta">
-      <a class="nav-signin" href="javascript:void(0)">Sign in</a>
+      <div class="signin-wrap" id="signinWrap">
+        <button class="nav-signin" id="signinToggle" type="button" aria-haspopup="true" aria-expanded="false">Sign in <span class="si-caret">▾</span></button>
+        <div class="signin-menu" role="menu" aria-label="Sign in">
+          <a id="lnk-carrier" href="#" role="menuitem"><span class="si-ic" style="background:var(--teal)"></span><span>Carrier Login<span class="si-sub">Dispatch &amp; load board</span></span></a>
+          <a id="lnk-broker" href="#" role="menuitem"><span class="si-ic" style="background:var(--blue)"></span><span>Broker Login<span class="si-sub">Post &amp; manage loads</span></span></a>
+        </div>
+      </div>
       <a class="btn btn-primary" href="javascript:void(0)" onclick="showView('request')">Request access</a>
     </div>
   </div>
@@ -554,7 +569,6 @@
           <label class="fld">Full name *<input id="ra-name" type="text" required placeholder="Jordan Smith"></label>
           <label class="fld">Phone number *<input id="ra-phone" type="tel" required placeholder="(555) 123-4567"></label>
           <label class="fld">Email *<input id="ra-email" type="email" required placeholder="you@company.com"></label>
-          <label class="fld">Business address *<input id="ra-address" type="text" required placeholder="123 Main St, City, ST 00000"></label>
           <div class="ra-type">
             <span class="ra-label">I am a *</span>
             <label class="radio"><input type="radio" name="ratype" value="broker"><span class="dot"></span>Broker</label>
@@ -612,7 +626,7 @@
       </div>
       <div class="foot-col"><h4>Product</h4><a href="javascript:void(0)" onclick="showView('board')">Loadboard</a><a href="javascript:void(0)" onclick="showView('grading')">Load grading</a><a href="javascript:void(0)" onclick="showView('financial')">Market data</a><a href="javascript:void(0)" onclick="showView('features')">Features</a></div>
       <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Partners</a><a href="#">Careers</a><a href="#">Contact</a></div>
-      <div class="foot-col"><h4>Get started</h4><a href="javascript:void(0)" onclick="showView('request')">Request access</a><a href="javascript:void(0)">Book a demo</a><a href="javascript:void(0)">Sign in</a></div>
+      <div class="foot-col"><h4>Get started</h4><a href="javascript:void(0)" onclick="showView('request')">Request access</a><a href="javascript:void(0)">Book a demo</a><a href="#" data-fs-signin="carrier">Carrier Login</a><a href="#" data-fs-signin="broker">Broker Login</a></div>
     </div>
     <div class="foot-bot">
       <span>© 2026 Freight Source. All rights reserved.</span>
@@ -622,7 +636,6 @@
 </footer>
 
 <script>
-  var FS_INTAKE_URL='https://sandbox.freightsource-internal.pages.dev/api/intake';
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.14,rootMargin:'0px 0px -8% 0px'});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const navEl=document.querySelector('.nav');
@@ -649,14 +662,13 @@
     var name=document.getElementById('ra-name').value.trim();
     var phone=document.getElementById('ra-phone').value.trim();
     var email=document.getElementById('ra-email').value.trim();
-    var address=document.getElementById('ra-address').value.trim();
     var typeEl=document.querySelector('input[name=ratype]:checked');
     var type=typeEl?typeEl.value:'';
     var numEl=document.querySelector('input[name=ranum]:checked');
     var idType=numEl?numEl.value:'';
     var mc=document.getElementById('ra-mc').value.trim();
     var err=document.getElementById('ra-err');
-    if(!name||!phone||!email||!address){err.textContent='Please fill in your name, phone, email, and business address.';err.style.display='block';return false;}
+    if(!name||!phone||!email){err.textContent='Please fill in your name, phone, and email.';err.style.display='block';return false;}
     if(!type){err.textContent='Please select Broker or Carrier.';err.style.display='block';return false;}
     if(!idType){err.textContent='Please select MC or DOT.';err.style.display='block';return false;}
     if(!mc){err.textContent='Please enter your '+idType+' number.';err.style.display='block';return false;}
@@ -669,9 +681,8 @@
       document.getElementById('ra-warning').style.display='block';
       window.scrollTo(0,0);return false;
     }
-    var lead={id:'lead_'+Date.now()+'_'+Math.floor(Math.random()*10000),name:name,phone:phone,email:email,address:address,type:type,idType:idType,mc:mc,ts:Date.now(),status:'new'};
+    var lead={id:'lead_'+Date.now()+'_'+Math.floor(Math.random()*10000),name:name,phone:phone,email:email,type:type,idType:idType,mc:mc,ts:Date.now(),status:'new'};
     try{var arr=JSON.parse(localStorage.getItem('freightsource_leads')||'[]');arr.push(lead);localStorage.setItem('freightsource_leads',JSON.stringify(arr));}catch(_){}
-    try{ fetch(FS_INTAKE_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(lead)}); }catch(_){}
     document.getElementById('ra-form').style.display='none';
     document.getElementById('ra-success').style.display='block';
     window.scrollTo(0,0);
@@ -702,5 +713,36 @@
   window.__fmtPhone=fmt;
 })();
 </script>
+<script>
+/* ============================================================
+   SIGN-IN ROUTING  —  change ONLY these two URLs if portals move
+   (e.g. to subdomains: 'https://carrier.freight-source.com')
+   ============================================================ */
+const FS_PORTAL_URLS = {
+  carrier: '/carrier-portal.html',
+  broker:  '/broker-portal.html'
+};
+(function(){
+  var c=document.getElementById('lnk-carrier'), b=document.getElementById('lnk-broker');
+  if(c) c.setAttribute('href', FS_PORTAL_URLS.carrier);
+  if(b) b.setAttribute('href', FS_PORTAL_URLS.broker);
+  document.querySelectorAll('[data-fs-signin]').forEach(function(el){
+    el.setAttribute('href', FS_PORTAL_URLS[el.getAttribute('data-fs-signin')] || '#');
+  });
+  var wrap=document.getElementById('signinWrap'), toggle=document.getElementById('signinToggle');
+  if(wrap && toggle){
+    toggle.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open=wrap.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open?'true':'false');
+    });
+    var menu=wrap.querySelector('.signin-menu');
+    if(menu) menu.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.addEventListener('click', function(){ wrap.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ wrap.classList.remove('open'); toggle.setAttribute('aria-expanded','false'); } });
+  }
+})();
+</script>
 </body>
+
 </html>
