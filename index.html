@@ -17,7 +17,7 @@
     --grad:linear-gradient(110deg,#2FE3C6 0%,#5B8DEF 38%,#9B6DF0 64%,#EC4F9C 100%);
     --grad-soft:linear-gradient(110deg,rgba(47,227,198,.18),rgba(91,141,239,.18),rgba(236,79,156,.18));
     --sans:'Inter',system-ui,sans-serif; --disp:'IBM Plex Sans',system-ui,sans-serif; --mono:'IBM Plex Mono',monospace;
-    --maxw:1180px;
+    --maxw:1600px;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -286,8 +286,8 @@
       <div class="signin-wrap" id="signinWrap">
         <button class="nav-signin" id="signinToggle" type="button" aria-haspopup="true" aria-expanded="false">Sign in <span class="si-caret">▾</span></button>
         <div class="signin-menu" role="menu" aria-label="Sign in">
-          <a id="lnk-carrier" href="#" role="menuitem"><span class="si-ic" style="background:var(--teal)"></span><span>Carrier Login<span class="si-sub">Dispatch &amp; load board</span></span></a>
-          <a id="lnk-broker" href="#" role="menuitem"><span class="si-ic" style="background:var(--blue)"></span><span>Broker Login<span class="si-sub">Post &amp; manage loads</span></span></a>
+          <a id="lnk-carrier" href="https://carrier.freight-source.com" role="menuitem"><span class="si-ic" style="background:var(--teal)"></span><span>Carrier Login<span class="si-sub">Dispatch &amp; load board</span></span></a>
+          <a id="lnk-broker" href="https://broker.freight-source.com" role="menuitem"><span class="si-ic" style="background:var(--blue)"></span><span>Broker Login<span class="si-sub">Post &amp; manage loads</span></span></a>
         </div>
       </div>
       <a class="btn btn-primary" href="javascript:void(0)" onclick="showView('request')">Request access</a>
@@ -626,7 +626,7 @@
       </div>
       <div class="foot-col"><h4>Product</h4><a href="javascript:void(0)" onclick="showView('board')">Loadboard</a><a href="javascript:void(0)" onclick="showView('grading')">Load grading</a><a href="javascript:void(0)" onclick="showView('financial')">Market data</a><a href="javascript:void(0)" onclick="showView('features')">Features</a></div>
       <div class="foot-col"><h4>Company</h4><a href="#">About</a><a href="#">Partners</a><a href="#">Careers</a><a href="#">Contact</a></div>
-      <div class="foot-col"><h4>Get started</h4><a href="javascript:void(0)" onclick="showView('request')">Request access</a><a href="javascript:void(0)">Book a demo</a><a href="#" data-fs-signin="carrier">Carrier Login</a><a href="#" data-fs-signin="broker">Broker Login</a></div>
+      <div class="foot-col"><h4>Get started</h4><a href="javascript:void(0)" onclick="showView('request')">Request access</a><a href="javascript:void(0)">Book a demo</a><a href="https://carrier.freight-source.com">Carrier Login</a><a href="https://broker.freight-source.com">Broker Login</a></div>
     </div>
     <div class="foot-bot">
       <span>© 2026 Freight Source. All rights reserved.</span>
@@ -714,21 +714,9 @@
 })();
 </script>
 <script>
-/* ============================================================
-   SIGN-IN ROUTING  —  change ONLY these two URLs if portals move
-   (e.g. to subdomains: 'https://carrier.freight-source.com')
-   ============================================================ */
-const FS_PORTAL_URLS = {
-  carrier: 'https://carrier.freight-source.com',
-  broker:  'https://broker.freight-source.com'
-};
+/* Sign-in dropdown open/close. The Carrier/Broker links are real <a href>
+   tags in the markup, so they work even if this script never runs. */
 (function(){
-  var c=document.getElementById('lnk-carrier'), b=document.getElementById('lnk-broker');
-  if(c) c.setAttribute('href', FS_PORTAL_URLS.carrier);
-  if(b) b.setAttribute('href', FS_PORTAL_URLS.broker);
-  document.querySelectorAll('[data-fs-signin]').forEach(function(el){
-    el.setAttribute('href', FS_PORTAL_URLS[el.getAttribute('data-fs-signin')] || '#');
-  });
   var wrap=document.getElementById('signinWrap'), toggle=document.getElementById('signinToggle');
   if(wrap && toggle){
     toggle.addEventListener('click', function(e){
