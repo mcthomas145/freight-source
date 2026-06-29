@@ -281,6 +281,7 @@
       <a href="javascript:void(0)" data-view="financial" onclick="showView('financial')">Financial data</a>
       <a href="javascript:void(0)" data-view="features" onclick="showView('features')">Features</a>
       <a href="javascript:void(0)" data-view="brokers" onclick="showView('brokers')">For brokers</a>
+      <a href="javascript:void(0)" data-view="pricing" onclick="showView('pricing')">Pricing</a>
     </div>
     <div class="nav-cta">
       <div class="signin-wrap" id="signinWrap">
@@ -556,6 +557,231 @@
     <div class="sec-head reveal"><span class="eyebrow">Inside the broker portal</span><h2>Run the brokerage from one screen.</h2><p>A dedicated, broker-only workspace for the money side of the business.</p></div>
     <div class="detail-rows reveal"><div class="drow"><div class="drow-k"><span class="drow-num">01</span><h4>Invoicing, end to end</h4></div><p>Move every load from delivery to paid: Waiting to Invoice, Pending Payment and Overdue, each with POD and BOL attached. Create and send invoices in a couple of clicks and always know what's outstanding.</p></div><div class="drow"><div class="drow-k"><span class="drow-num">02</span><h4>Revenue & margin at a glance</h4></div><p>Track month-to-date revenue and margin, total outstanding invoices, and exactly what's past due — updated live on your dashboard.</p></div><div class="drow"><div class="drow-k"><span class="drow-num">03</span><h4>Carrier network management</h4></div><p>Approve carriers, collect packets and insurance certificates, and send rate confirmations and carrier agreements. Build a roster of vetted carriers you can cover loads with fast.</p></div><div class="drow"><div class="drow-k"><span class="drow-num">04</span><h4>Live tracking & late alerts</h4></div><p>Follow every active load in transit and get flagged the moment a delivery starts running behind, with driver, current location, ETA and scheduled delivery all in view.</p></div><div class="drow"><div class="drow-k"><span class="drow-num">05</span><h4>Post loads to the network</h4></div><p>Post your freight straight to the Freight Source carrier network and the boards you already use, so qualified carriers see and book your loads quickly.</p></div></div>
   </div>
+</section>
+</div>
+
+<!-- PRICING -->
+<div class="view" id="view-pricing">
+<section class="fs-pricing" aria-labelledby="fs-pricing-title">
+  <style>
+    .fs-pricing{
+      --fs-grad:var(--grad);
+      --fs-grad-soft:var(--grad-soft);
+      box-sizing:border-box;
+      color:var(--text);
+      font-family:var(--sans);
+      padding:64px 28px 96px;
+      position:relative;
+      overflow:hidden;
+    }
+    .fs-pricing *,.fs-pricing *::before,.fs-pricing *::after{box-sizing:border-box;}
+    .fs-pricing::before{
+      content:"";position:absolute;inset:auto 0 auto 50%;top:-160px;
+      width:780px;height:420px;transform:translateX(-50%);
+      background:radial-gradient(closest-side,rgba(47,227,198,.10),transparent 70%);
+      pointer-events:none;
+    }
+    .fs-pricing__wrap{max-width:1040px;margin:0 auto;position:relative;}
+
+    .fs-pricing__eyebrow{
+      font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--dim);margin:0 0 16px;
+    }
+    .fs-pricing__title{
+      font-family:var(--disp);font-size:clamp(28px,4.4vw,44px);line-height:1.06;font-weight:600;
+      letter-spacing:-.02em;margin:0 0 16px;color:var(--text);
+    }
+    .fs-pricing__sub{
+      font-size:clamp(15px,1.6vw,17px);line-height:1.6;color:var(--dim);
+      max-width:560px;margin:0 0 36px;
+    }
+    .fs-pricing__sub b{color:var(--text);font-weight:600;}
+
+    .fs-pricing__toggle{
+      display:inline-flex;align-items:center;gap:4px;
+      background:var(--panel);border:1px solid var(--line2);
+      border-radius:999px;padding:4px;margin-bottom:48px;
+    }
+    .fs-pricing__toggle button{
+      appearance:none;border:0;background:transparent;cursor:pointer;
+      color:var(--dim);font-family:var(--sans);font-size:14px;font-weight:600;
+      padding:9px 18px;border-radius:999px;transition:color .18s,background .18s;
+      display:inline-flex;align-items:center;gap:8px;
+    }
+    .fs-pricing__toggle button[aria-pressed="true"]{color:var(--text);background:rgba(255,255,255,.07);}
+    .fs-pricing__toggle button:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+    .fs-pricing__save{
+      font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.04em;
+      padding:2px 8px;border-radius:999px;color:#04241e;background:var(--fs-grad);
+    }
+
+    .fs-pricing__cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start;}
+    .fs-card{
+      position:relative;background:var(--panel);border:1px solid var(--line);
+      border-radius:18px;padding:32px 28px;transition:transform .2s,border-color .2s;
+    }
+    .fs-card:hover{transform:translateY(-3px);border-color:var(--line2);}
+
+    .fs-card--pro{background:var(--panel2);}
+    .fs-card--pro::before{
+      content:"";position:absolute;inset:-1px;border-radius:18px;padding:1px;
+      background:var(--fs-grad);
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;
+    }
+    .fs-card--pro::after{
+      content:"";position:absolute;inset:0;border-radius:18px;pointer-events:none;
+      background:var(--fs-grad-soft);opacity:.45;
+    }
+    .fs-card__inner{position:relative;}
+    .fs-badge{
+      position:absolute;top:-13px;right:24px;font-family:var(--mono);font-size:10.5px;font-weight:600;
+      letter-spacing:.1em;text-transform:uppercase;color:#04121f;
+      padding:6px 12px;border-radius:999px;background:var(--fs-grad);
+    }
+
+    .fs-card__name{font-size:14px;font-weight:600;letter-spacing:.02em;color:var(--teal);margin:0 0 6px;}
+    .fs-card__name b{color:var(--text);font-weight:700;}
+    .fs-card__pitch{font-size:14.5px;line-height:1.5;color:var(--dim);margin:0 0 22px;min-height:44px;}
+
+    .fs-price{display:flex;align-items:baseline;gap:6px;margin:0 0 4px;font-family:var(--mono);}
+    .fs-price__cur{font-size:22px;font-weight:600;color:var(--text);align-self:flex-start;margin-top:7px;}
+    .fs-price__amt{font-size:46px;font-weight:600;letter-spacing:-.02em;color:var(--text);line-height:1;}
+    .fs-price__per{font-size:14px;font-weight:500;color:var(--dim2);}
+    .fs-price__note{font-family:var(--mono);font-size:12px;color:var(--dim2);min-height:18px;margin:0 0 22px;}
+
+    .fs-seats{
+      display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--dim);
+      background:rgba(255,255,255,.03);border:1px solid var(--line);
+      padding:7px 12px;border-radius:10px;margin:0 0 24px;
+    }
+
+    .fs-cta{
+      display:block;width:100%;text-align:center;text-decoration:none;
+      font-family:var(--sans);font-size:15px;font-weight:600;padding:13px 16px;border-radius:11px;
+      transition:filter .18s,background .18s,border-color .18s;cursor:pointer;border:1px solid transparent;
+    }
+    .fs-cta--ghost{background:rgba(255,255,255,.03);color:var(--text);border-color:var(--line2);}
+    .fs-cta--ghost:hover{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.2);}
+    .fs-cta--solid{background:var(--fs-grad);color:#04121d;}
+    .fs-cta--solid:hover{filter:brightness(1.06);}
+    .fs-cta:focus-visible{outline:2px solid var(--teal);outline-offset:2px;}
+
+    .fs-feat__head{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--dim2);margin:26px 0 14px;padding-top:24px;border-top:1px solid var(--line);}
+    .fs-feat{list-style:none;margin:26px 0 0;padding:24px 0 0;border-top:1px solid var(--line);display:grid;gap:13px;}
+    .fs-card--pro .fs-feat{margin-top:0;padding-top:0;border-top:0;}
+    .fs-feat li{display:flex;gap:11px;align-items:flex-start;font-size:14px;line-height:1.45;color:var(--text);}
+    .fs-feat li.off{color:var(--dim2);}
+    .fs-feat .ic{flex:0 0 18px;width:18px;height:18px;margin-top:1px;}
+
+    .fs-pricing__foot{margin:34px 0 0;font-size:13.5px;color:var(--dim2);text-align:center;}
+    .fs-pricing__foot a{color:var(--teal);text-decoration:none;font-weight:600;cursor:pointer;}
+    .fs-pricing__foot a:hover{text-decoration:underline;}
+
+    @media (max-width:760px){
+      .fs-pricing{padding:48px 18px 72px;}
+      .fs-pricing__cards{grid-template-columns:1fr;}
+      .fs-card{padding:28px 22px;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      .fs-card,.fs-cta,.fs-pricing__toggle button{transition:none;}
+      .fs-card:hover{transform:none;}
+    }
+  </style>
+
+  <div class="fs-pricing__wrap">
+    <p class="fs-pricing__eyebrow">Pricing</p>
+    <h2 class="fs-pricing__title" id="fs-pricing-title">Simple pricing, no per-seat math.</h2>
+    <p class="fs-pricing__sub">Start on the boards you already run. Step up when you want routing, live rates and the full dispatch desk &mdash; <b>Pro bundles three seats</b>, so you're not paying by the head.</p>
+
+    <div class="fs-pricing__toggle" role="group" aria-label="Billing period">
+      <button type="button" data-bill="mo" aria-pressed="true">Monthly</button>
+      <button type="button" data-bill="yr" aria-pressed="false">Annual <span class="fs-pricing__save">Save ~17%</span></button>
+    </div>
+
+    <div class="fs-pricing__cards">
+
+      <!-- LITE -->
+      <article class="fs-card fs-card--lite">
+        <div class="fs-card__inner">
+          <p class="fs-card__name"><b>Freight Source</b> Lite</p>
+          <p class="fs-card__pitch">Just the freight. See every load you can run, in one place.</p>
+
+          <div class="fs-price">
+            <span class="fs-price__cur">$</span>
+            <span class="fs-price__amt" data-mo="49" data-yr="41">49</span>
+            <span class="fs-price__per">/ mo</span>
+          </div>
+          <p class="fs-price__note" data-mo="" data-yr="$490 billed annually">&nbsp;</p>
+
+          <div class="fs-seats">1 user &middot; 1 office</div>
+
+          <a class="fs-cta fs-cta--ghost" href="javascript:void(0)" onclick="showView('request')">Request access</a>
+
+          <ul class="fs-feat">
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Unified load board &mdash; DAT, Truckstop, 123Loadboard, Sylectus &amp; your brokers</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Basic cost entry</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Book Now, where your brokers allow it</li>
+            <li class="off"><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#6A7484" stroke-width="1.5"/><path d="M6.5 10h7" stroke="#6A7484" stroke-width="1.6" stroke-linecap="round"/></svg>Load grading A&ndash;D</li>
+            <li class="off"><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#6A7484" stroke-width="1.5"/><path d="M6.5 10h7" stroke="#6A7484" stroke-width="1.6" stroke-linecap="round"/></svg>Routing, rates &amp; negotiation</li>
+            <li class="off"><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#6A7484" stroke-width="1.5"/><path d="M6.5 10h7" stroke="#6A7484" stroke-width="1.6" stroke-linecap="round"/></svg>CRM, fuel &amp; integrations</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- PRO -->
+      <article class="fs-card fs-card--pro">
+        <span class="fs-badge">Most popular</span>
+        <div class="fs-card__inner">
+          <p class="fs-card__name"><b>Freight Source</b> Pro</p>
+          <p class="fs-card__pitch">The full dispatch desk. Every load graded against your real costs.</p>
+
+          <div class="fs-price">
+            <span class="fs-price__cur">$</span>
+            <span class="fs-price__amt" data-mo="299" data-yr="249">299</span>
+            <span class="fs-price__per">/ mo</span>
+          </div>
+          <p class="fs-price__note" data-mo="" data-yr="$2,990 billed annually">&nbsp;</p>
+
+          <div class="fs-seats">Up to 3 users &middot; 1 office</div>
+
+          <a class="fs-cta fs-cta--solid" href="javascript:void(0)" onclick="showView('request')">Request access</a>
+
+          <p class="fs-feat__head">Everything in Lite, plus</p>
+          <ul class="fs-feat">
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Load grading A&ndash;D against your real cost-per-mile</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Routing &amp; mileage</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Live market rates &amp; cost-per-mile</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Full offers &amp; negotiation</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Broker CRM &amp; credit filters</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Fuel management &amp; API integrations</li>
+            <li><svg class="ic" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="9" stroke="#2FE3C6" stroke-width="1.5"/><path d="M6 10.2l2.6 2.6L14 7.4" stroke="#2FE3C6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Weather &amp; traffic overlays</li>
+          </ul>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="fs-pricing__foot">Prices in USD. Running a larger operation? <a href="javascript:void(0)" onclick="showView('request')">Talk to us &rarr;</a></p>
+  </div>
+
+  <script>
+  (function(){
+    var root = document.currentScript.closest('.fs-pricing');
+    if(!root) return;
+    var btns = root.querySelectorAll('.fs-pricing__toggle button');
+    function apply(bill){
+      btns.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.bill===bill ? 'true':'false'); });
+      root.querySelectorAll('.fs-price__amt').forEach(function(el){ el.textContent = el.dataset[bill]; });
+      root.querySelectorAll('.fs-price__note').forEach(function(el){
+        var t = el.dataset[bill];
+        el.innerHTML = t ? t : '&nbsp;';
+      });
+    }
+    btns.forEach(function(b){ b.addEventListener('click', function(){ apply(b.dataset.bill); }); });
+    apply('mo');
+  })();
+  </script>
 </section>
 </div>
 
